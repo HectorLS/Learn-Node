@@ -99,7 +99,19 @@ exports.getStoreBySlug = async (req, res, next) => {
 }
 
 exports.getStoreByTag = async (req, res) => {
-  const tags = await Store.getTagsList();
-  const tag = req.params.tag;
-  res.render('tags', {tags, title: 'Tags', tag})
+  const tag           = req.params.tag;
+  const tagQuery      = tag || {$exists: true};
+  const tagsPromise   = Store.getTagsList();
+  const storesPromise = Store.find({ tags: tagQuery });
+
+  /*
+  ES5
+  const result = await Promise.all([tagsPromise, storesPromise]);
+  var tags = result[0];
+  var stores = result[1];
+  */
+  // ES6 Destructured
+  const [tags, stores] = await Promise.all([tagsPromise, storesPromise]);
+
+  res.render('tags', {tags, title: 'Tags', tag, stores})
 }
