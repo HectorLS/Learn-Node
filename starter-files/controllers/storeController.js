@@ -89,8 +89,8 @@ exports.updateStore = async (req, res) => {
 
 exports.getStoreBySlug = async (req, res, next) => {
   // Check what is sending through the URL
-  // ERROR: Converting circular structure to JSON
-  // Because i tried to convert req, instead of req,params to a json
+  // If ERROR: Converting circular structure to JSON
+  // is Because i tried to convert req, instead of req.params to a json
   //res.json(req.params);
   const store = await Store.findOne({ slug: req.params.slug });
   if(!store) return next();
@@ -99,6 +99,7 @@ exports.getStoreBySlug = async (req, res, next) => {
 }
 
 exports.getStoreByTag = async (req, res) => {
-  //res.render('TAGSSSSS');
-  res.send('TAGSSSSS');
+  const tags = await Store.getTagsList();
+  const tag = req.params.tag;
+  res.render('tags', {tags, title: 'Tags', tag})
 }
