@@ -86,3 +86,14 @@ exports.updateStore = async (req, res) => {
   // 2. Redirect them to the store and tell them it worked
   res.redirect(`/stores/${store._id}/edit`);
 }
+
+exports.getStoreBySlug = async (req, res, next) => {
+  // Check what is sending through the URL
+  // ERROR: Converting circular structure to JSON
+  // Because i tried to convert req, instead of req,params to a json
+  //res.json(req.params);
+  const store = await Store.findOne({ slug: req.params.slug });
+  if(!store) return next();
+  //res.json(store);
+  res.render('store', { store, title: store.title });
+}
