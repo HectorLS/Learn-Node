@@ -554,7 +554,7 @@ label {
     transform: translateX(0px); } }
 
 .flash {
-  background: white;
+  background: red;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.15);
   margin-bottom: 2rem;
   padding: 2rem;
